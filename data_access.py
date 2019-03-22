@@ -1,4 +1,5 @@
 import sqlite3 as lite
+from datetime import datetime, date
 
 
 class DataAccess:
@@ -21,7 +22,14 @@ class DataAccess:
         self.con.close()
 
     def log_data(self, temp, humid):
+        now = datetime.utcnow()
         cur = self.con.cursor()
-        cur.execute("INSERT INTO ? VALUES (DATETIME('now'), ?, ?)",
-                    (DataAccess.SENSOR_DATA_TB,), (temp,), (humid,))
+        cur.execute("INSERT INTO ? VALUES (?, ?, ?)",
+                    (DataAccess.SENSOR_DATA_TB,), (now,), (temp,), (humid,))
         self.con.commit()
+
+    def log_notification(self):
+        today = date.today()
+        cur = self.con.cursor()
+        cur.execute("INSERT INTO ? VALUES (?, ?)",
+                    (DataAccess.NOTIFICATION_STATUS_TB,), (today,), (True,))
