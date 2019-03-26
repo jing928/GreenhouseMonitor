@@ -9,8 +9,8 @@ class DataAccess:
         with self.con:
             cur = self.con.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA "
-                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, collected_at DATETIME, temp NUMERIC,"
-                        "humid NUMERIC)")
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        "collected_at DATETIME, temp NUMERIC, humid NUMERIC)")
             cur.execute("CREATE TABLE IF NOT EXISTS NOTIFICATION_STATUS "
                         "(id INTEGER PRIMARY KEY AUTOINCREMENT, notify_date DATE, sent BOOLEAN)")
 
@@ -20,13 +20,15 @@ class DataAccess:
     def log_data(self, temp, humid):
         now = datetime.utcnow()
         cur = self.con.cursor()
-        cur.execute("INSERT INTO SENSOR_DATA (collected_at, temp, humid) VALUES (?, ?, ?)", (now, temp, humid))
+        cur.execute("INSERT INTO SENSOR_DATA (collected_at, temp, humid) "
+                    "VALUES (?, ?, ?)", (now, temp, humid))
         self.con.commit()
 
     def log_notification(self):
         today = date.today()  # Local current date
         cur = self.con.cursor()
-        cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) VALUES (?, ?)", (today, True))
+        cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) "
+                    "VALUES (?, ?)", (today, True))
         self.con.commit()
 
     def get_notification_status(self, current_date):
