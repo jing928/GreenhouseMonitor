@@ -5,7 +5,7 @@ from datetime import datetime, date
 class DataAccess:
 
     def __init__(self):
-        self.con = lite.connect('greenhouse_monitor.db')
+        self.con = lite.connect('greenhouse_monitor.db')  # Need to be full path for cronjob
         with self.con:
             cur = self.con.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA"
@@ -18,13 +18,13 @@ class DataAccess:
     def log_data(self, temp, humid):
         now = datetime.utcnow()
         cur = self.con.cursor()
-        cur.execute("INSERT INTO SENSOR_DATA VALUES (?, ?, ?)", (now,), (temp,), (humid,))
+        cur.execute("INSERT INTO SENSOR_DATA VALUES (?, ?, ?)", (now, temp, humid))
         self.con.commit()
 
     def log_notification(self):
         today = date.today()  # Local current date
         cur = self.con.cursor()
-        cur.execute("INSERT INTO NOTIFICATION_STATUS VALUES (?, ?)", (today,), (True,))
+        cur.execute("INSERT INTO NOTIFICATION_STATUS VALUES (?, ?)", (today, True))
         self.con.commit()
 
     def get_notification_status(self, current_date):
