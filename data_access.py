@@ -22,7 +22,15 @@ class DataAccess:
         self.con.commit()
 
     def log_notification(self):
-        today = date.today()
+        today = date.today()  # Local current date
         cur = self.con.cursor()
         cur.execute("INSERT INTO NOTIFICATION_STATUS VALUES (?, ?)", (today,), (True,))
         self.con.commit()
+
+    def get_notification_status(self, current_date):
+        cur = self.con.cursor()
+        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE date = ?", (current_date,))
+        result = cur.fetchone()
+        if result is None:
+            return False
+        return result[1]  # Should return the second column of `sent (boolean)`
