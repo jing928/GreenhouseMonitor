@@ -25,3 +25,4 @@ class DataAccess:
         today = date.today()
         cur = self.con.cursor()
         cur.execute("INSERT INTO NOTIFICATION_STATUS VALUES (?, ?)", (today,), (True,))
+        self.con.commit()
