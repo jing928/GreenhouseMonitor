@@ -1,4 +1,5 @@
 from sense_hat import SenseHat
+from utils.sensor_type import SensorType
 
 
 class DataCollector:
@@ -9,10 +10,9 @@ class DataCollector:
     def collect_data(self):
         temp = self.collect_temp()
         humid = self.collect_humid()
-        if temp is not None and humid is not None:
-            return {'temperature': round(temp, 1), 'humidity': round(humid, 1)}
-        else:
+        if temp is None or humid is None:
             return None
+        return {SensorType.TEMPERATURE: round(temp, 1), SensorType.HUMIDITY: round(humid, 1)}
 
     def collect_temp(self):
         temp = self.__sense.get_temperature()

@@ -1,5 +1,6 @@
 from data_access import DataAccess
 from data_collector import DataCollector
+from utils.sensor_type import SensorType
 
 
 class DataMonitor:
@@ -14,4 +15,4 @@ class DataMonitor:
             self.__save_data(sensor_data)
 
     def __save_data(self, data):
-        self.__dao.log_data(data['temperature'], data['humidity'])
+        self.__dao.log_data(data[SensorType.TEMPERATURE], data[SensorType.HUMIDITY])
