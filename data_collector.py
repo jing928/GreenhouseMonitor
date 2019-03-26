@@ -11,6 +11,7 @@ class DataCollector:
         temp = self.collect_temp()
         humid = self.collect_humid()
         if temp is not None and humid is not None:
+            # TODO: Do this in a different class
             dao = DataAccess()
             dao.log_data(round(temp, 1), round(humid, 1))
 
