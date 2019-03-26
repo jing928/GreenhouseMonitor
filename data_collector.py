@@ -12,7 +12,7 @@ class DataCollector:
         humid = self.collect_humid()
         if temp is not None and humid is not None:
             dao = DataAccess()
-            dao.log_data(temp, humid)
+            dao.log_data(round(temp, 1), round(humid, 1))
 
     def collect_temp(self):
         temp = self.sense.get_temperature()
