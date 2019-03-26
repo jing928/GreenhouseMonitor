@@ -8,9 +8,11 @@ class DataAccess:
         self.con = lite.connect('greenhouse_monitor.db')  # Need to be full path for cronjob
         with self.con:
             cur = self.con.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA"
-                        "(timestamp DATETIME, temp NUMERIC, humid NUMERIC)")
-            cur.execute("CREATE TABLE IF NOT EXISTS NOTIFICATION_STATUS (date DATE, sent BOOLEAN)")
+            cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA "
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, collected_at DATETIME, temp NUMERIC,"
+                        "humid NUMERIC)")
+            cur.execute("CREATE TABLE IF NOT EXISTS NOTIFICATION_STATUS "
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, notify_date DATE, sent BOOLEAN)")
 
     def __del__(self):
         self.con.close()
@@ -18,18 +20,18 @@ class DataAccess:
     def log_data(self, temp, humid):
         now = datetime.utcnow()
         cur = self.con.cursor()
-        cur.execute("INSERT INTO SENSOR_DATA VALUES (?, ?, ?)", (now, temp, humid))
+        cur.execute("INSERT INTO SENSOR_DATA (collected_at, temp, humid) VALUES (?, ?, ?)", (now, temp, humid))
         self.con.commit()
 
     def log_notification(self):
         today = date.today()  # Local current date
         cur = self.con.cursor()
-        cur.execute("INSERT INTO NOTIFICATION_STATUS VALUES (?, ?)", (today, True))
+        cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) VALUES (?, ?)", (today, True))
         self.con.commit()
 
     def get_notification_status(self, current_date):
         cur = self.con.cursor()
-        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE date = ?", (current_date,))
+        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE notify_date = ?", (current_date,))
         result = cur.fetchone()
         if result is None:
             return False
