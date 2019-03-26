@@ -5,7 +5,7 @@ from datetime import datetime, date
 class DataAccess:
 
     def __init__(self):
-        self.con = lite.connect('greenhouse_monitor.db')
+        self.con = lite.connect('greenhouse_monitor.db')  # Need to be full path for cronjob
         with self.con:
             cur = self.con.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA"
