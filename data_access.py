@@ -1,5 +1,6 @@
 import sqlite3 as lite
 from datetime import datetime, date
+from utils.enums import SensorDataCol
 
 
 class DataAccess:
@@ -30,6 +31,7 @@ class DataAccess:
         cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) "
                     "VALUES (?, ?)", (today, True))
         self.con.commit()
+        return cur.lastrowid  # Use this to find the row inserted later
 
     def get_notification_status(self, current_date):
         cur = self.con.cursor()
@@ -38,3 +40,13 @@ class DataAccess:
         if result is None:
             return False
         return result[1]  # Should return the second column of `sent (boolean)`
+
+    def get_sensor_reading(self, row_id):
+        cur = self.con.cursor()
+        cur.execute("SELECT collected_at, temp, humid FROM SENSOR_DATA WHERE id = ?",
+                    (row_id,))
+        result = cur.fetchone()
+        if result is None:
+            return False
+        return {SensorDataCol.COLLECTED_AT: result[0], SensorDataCol.TEMP: result[1],
+                SensorDataCol.HUMID: result[2]}
