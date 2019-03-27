@@ -24,6 +24,7 @@ class DataAccess:
         cur.execute("INSERT INTO SENSOR_DATA (collected_at, temp, humid) "
                     "VALUES (?, ?, ?)", (now, temp, humid))
         self.con.commit()
+        return cur.lastrowid  # Use this to find the row inserted later
 
     def log_notification(self):
         today = date.today()  # Local current date
@@ -31,7 +32,6 @@ class DataAccess:
         cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) "
                     "VALUES (?, ?)", (today, True))
         self.con.commit()
-        return cur.lastrowid  # Use this to find the row inserted later
 
     def get_notification_status(self, lookup_date=date.today()):
         cur = self.con.cursor()

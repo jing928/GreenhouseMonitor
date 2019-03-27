@@ -27,7 +27,7 @@ class DataMonitor:
         if not reading:
             print('No reading saved.')
             return
-        
+
         sensor_data_range = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/'
                                                     'config.json')
         if sensor_data_range is None:
