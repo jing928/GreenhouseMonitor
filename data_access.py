@@ -33,9 +33,9 @@ class DataAccess:
         self.con.commit()
         return cur.lastrowid  # Use this to find the row inserted later
 
-    def get_notification_status(self, current_date):
+    def get_notification_status(self, lookup_date=date.today()):
         cur = self.con.cursor()
-        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE notify_date = ?", (current_date,))
+        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE notify_date = ?", (lookup_date,))
         result = cur.fetchone()
         if result is None:
             return False
