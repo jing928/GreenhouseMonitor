@@ -40,7 +40,7 @@ class DataAccess:
         result = cur.fetchone()
         if result is None:
             return False
-        return result[1]  # Should return the second column of `sent (boolean)`
+        return result[0]  # Should return the second column of `sent (boolean)`
 
     def get_sensor_reading(self, row_id):
         cur = self.con.cursor()
