@@ -1,5 +1,5 @@
 from sense_hat import SenseHat
-from utils.sensor_type import SensorType
+from utils.enums import SensorType
 
 
 class DataCollector:
