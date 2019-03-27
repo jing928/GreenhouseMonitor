@@ -38,7 +38,7 @@ class Notifier:
             temp_info = temp_verified_result[1]
             humid_info = humid_verified_result[1]
             collected_time = reading[SensorDataCol.COLLECTED_AT].strftime('%b %d, %Y %I:%M:%S %p %Z')
-            body = "Time: {time} Temperature: {temp} *C Humidity: {humid}%\n{temp_info}" \
+            body = "Time: {time} Temperature: {temp} \xb0C Humidity: {humid}%\n{temp_info}" \
                    "\n{humid_info}".format(time=collected_time, temp=reading[SensorDataCol.TEMP],
                                            humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
                                            humid_info=humid_info)
