@@ -1,5 +1,5 @@
 import sqlite3 as lite
-from datetime import datetime, date, timezone
+from datetime import datetime, date
 from utils.enums import SensorDataCol
 
 
@@ -43,7 +43,8 @@ class DataAccess:
 
     def get_sensor_reading(self, row_id):
         cur = self.con.cursor()
-        cur.execute("SELECT collected_at, temp, humid FROM SENSOR_DATA WHERE id = ?",
+        cur.execute('''SELECT collected_at "[timestamp]", temp, humid
+                       FROM SENSOR_DATA WHERE id = ?''',
                     (row_id,))
         result = cur.fetchone()
         if result is None:
