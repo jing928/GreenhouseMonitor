@@ -47,7 +47,7 @@ class DataAccess:
                     (row_id,))
         result = cur.fetchone()
         if result is None:
-            return False
+            return {}
         collected_local_time = self.utc_to_localtime(result[0])
         return {SensorDataCol.COLLECTED_AT: collected_local_time, SensorDataCol.TEMP: result[1],
                 SensorDataCol.HUMID: result[2]}
