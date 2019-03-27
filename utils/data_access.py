@@ -6,13 +6,13 @@ from utils.enums import SensorDataCol
 class DataAccess:
 
     def __init__(self):
-        self.con = lite.connect('greenhouse_monitor.db', # Need to be full path for cronjob
-                                detect_types=lite.PARSE_DECLTYPES|lite.PARSE_COLNAMES)
+        self.con = lite.connect('greenhouse_monitor.db',  # Need to be full path for cronjob
+                                detect_types=lite.PARSE_DECLTYPES | lite.PARSE_COLNAMES)
         with self.con:
             cur = self.con.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA "
                         "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        "collected_at DATETIME, temp NUMERIC, humid NUMERIC)")
+                        "collected_at TIMESTAMP, temp NUMERIC, humid NUMERIC)")
             cur.execute("CREATE TABLE IF NOT EXISTS NOTIFICATION_STATUS "
                         "(id INTEGER PRIMARY KEY AUTOINCREMENT, notify_date DATE, sent BOOLEAN)")
 
