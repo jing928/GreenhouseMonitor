@@ -1,12 +1,13 @@
 import sqlite3 as lite
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from utils.enums import SensorDataCol
 
 
 class DataAccess:
 
     def __init__(self):
-        self.con = lite.connect('greenhouse_monitor.db')  # Need to be full path for cronjob
+        self.con = lite.connect('greenhouse_monitor.db', # Need to be full path for cronjob
+                                detect_types=lite.PARSE_DECLTYPES|lite.PARSE_COLNAMES)
         with self.con:
             cur = self.con.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS SENSOR_DATA "
@@ -43,8 +44,7 @@ class DataAccess:
 
     def get_sensor_reading(self, row_id):
         cur = self.con.cursor()
-        cur.execute('''SELECT collected_at "[timestamp]", temp, humid
-                       FROM SENSOR_DATA WHERE id = ?''',
+        cur.execute("SELECT collected_at, temp, humid FROM SENSOR_DATA WHERE id = ?",
                     (row_id,))
         result = cur.fetchone()
         if result is None:
@@ -55,4 +55,4 @@ class DataAccess:
 
     @staticmethod
     def utc_to_localtime(utc_time):
-        return utc_time.astimezone(tz=None)
+        return utc_time.replace(tzinfo=timezone.utc).astimezone(tz=None)
