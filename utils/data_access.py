@@ -54,4 +54,4 @@ class DataAccess:
 
     @staticmethod
     def utc_to_localtime(utc_time):
-        return utc_time.replace(tzinfo=timezone.utc).astimezone(tz=None)
+        return utc_time.astimezone(tz=None)
