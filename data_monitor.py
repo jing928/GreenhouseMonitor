@@ -1,6 +1,6 @@
-from data_access import DataAccess
+from utils.data_access import DataAccess
 from data_collector import DataCollector
-from utils.sensor_type import SensorType
+from utils.enums import SensorType, SensorDataCol
 
 
 class DataMonitor:

@@ -1,6 +1,6 @@
 import json
 import requests
-from data_access import DataAccess
+from utils.data_access import DataAccess
 from utils.enums import SensorDataCol
 
 
