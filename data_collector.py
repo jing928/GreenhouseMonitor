@@ -42,6 +42,7 @@ class DataCollector:
         temp_cpu = self.get_cpu_temperature()
 
         temp_average_humid_pressure = (temp_from_humid + temp_from_pressure) / 2
-        temp_corrected = temp_average_humid_pressure - ((temp_cpu - temp_average_humid_pressure) / 1.5)
+        temp_corrected = temp_average_humid_pressure - \
+                         ((temp_cpu - temp_average_humid_pressure) / 1.5)
         return temp_corrected
     # End of Reference
