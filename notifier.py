@@ -12,6 +12,7 @@ class Notifier:
     def __init__(self):
         token_dict = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
         self.__token = token_dict['pushbullet'] if token_dict is not None else None
+        self.__dao = DataAccess()
 
     def send_notification(self, title, body):
         if self.__token is None:
@@ -27,11 +28,11 @@ class Notifier:
         if response.status_code != 200:
             print('Oops...Something went wrong...')
         else:
+            self.__dao.log_notification()
             print('Success! Notification sent!')
 
     def notify_out_of_range_reading(self, reading, temp_verified_result, humid_verified_result):
-        dao = DataAccess()
-        notification_sent_today = dao.get_notification_status()
+        notification_sent_today = self.__dao.get_notification_status()
         if not notification_sent_today:
             title = 'Attention! Reading Out Of Range!'
             temp_info = temp_verified_result[1]
