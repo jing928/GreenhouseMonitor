@@ -1,5 +1,5 @@
 import sqlite3 as lite
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from utils.enums import SensorDataCol
 
 
@@ -48,5 +48,10 @@ class DataAccess:
         result = cur.fetchone()
         if result is None:
             return False
-        return {SensorDataCol.COLLECTED_AT: result[0], SensorDataCol.TEMP: result[1],
+        collected_local_time = self.utc_to_localtime(result[0])
+        return {SensorDataCol.COLLECTED_AT: collected_local_time, SensorDataCol.TEMP: result[1],
                 SensorDataCol.HUMID: result[2]}
+
+    @staticmethod
+    def utc_to_localtime(utc_time):
+        return utc_time.replace(tzinfo=timezone.utc).astimezone(tz=None)
