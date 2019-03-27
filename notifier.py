@@ -1,6 +1,7 @@
 import json
 import requests
 from utils.data_access import DataAccess
+from utils.file_access import FileAccess
 from utils.enums import SensorDataCol
 
 
@@ -9,9 +10,14 @@ class Notifier:
     ENDPOINT = 'https://api.pushbullet.com/v2/pushes'
 
     def __init__(self):
-        self.__token = 'o.sp3pA6LfFHgeFZlVKSjrNviwnevqAVXX'
+        token_dict = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
+        self.__token = token_dict['pushbullet'] if token_dict is not None else None
 
     def send_notification(self, title, body):
+        if self.__token is None:
+            print('No PushBullet API Token found, notification will not be sent.')
+            return
+
         content = {"type": "note", "title": title, "body": body}
 
         response = requests.post(Notifier.ENDPOINT, data=json.dumps(content),
