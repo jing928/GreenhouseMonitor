@@ -44,3 +44,9 @@ class Notifier:
                                            humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
                                            humid_info=humid_info)
             self.send_notification(title, body)
+
+    def notify_nearby_device(self, device_name, reading):
+        title = "Hello {name}!".format(name=device_name)
+        body = "The current temperature is {temp:.1f} \xb0C and the humidity is {humid:.1f}%.\n" \
+               "Have a nice day!".format(temp=reading, humid=reading)
+        self.send_notification(title, body)
