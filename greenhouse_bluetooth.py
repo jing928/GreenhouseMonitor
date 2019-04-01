@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
-import bluetooth
-import os
-import time
 import json
 import requests
-from sense_hat import SenseHat
+import bluetooth
 from utils.data_access import DataAccess
 from utils.file_access import FileAccess
 from utils.enums import SensorDataCol
@@ -36,7 +32,7 @@ class GreenhouseBluetooth:
             print('Success! Notification sent!')
 
     # Search for device based on device's name.
-    def search(self,reading, temp_verified_result, humid_verified_result):
+    def search(self, reading, temp_verified_result, humid_verified_result):
         notification_sent_today = self.__dao.get_notification_status()
 
         if not notification_sent_today:
@@ -54,14 +50,14 @@ class GreenhouseBluetooth:
                 humid_info = humid_verified_result[1]
                 collected_time = reading[SensorDataCol.COLLECTED_AT].\
                     strftime('%b %d, %Y %I:%M:%S %p %Z')
-                body =  "Hi {name}! The Phone {address} is connected! Time: {time} Temperature: {temp} \xb0C Humidity: {humid}%\n{temp_info}" \
-                   "\n{humid_info}".format(name=device_name, address=device_address, time=collected_time, temp=reading[SensorDataCol.TEMP],
+                body = "Hi {name}! The Phone {address} is connected! Time: " \
+                       "{time} Temperature: {temp} \xb0C Humidity: {humid}%\n{temp_info}" \
+                   "\n{humid_info}".format(name=device_name, address=device_address,
+                                           time=collected_time, temp=reading[SensorDataCol.TEMP],
                                            humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
                                            humid_info=humid_info)
                 self.send_notification(title, body)
-             
             else:
                 title = 'Could not find target device nearby...'
                 body = None
                 self.send_notification(title, body)
-                
