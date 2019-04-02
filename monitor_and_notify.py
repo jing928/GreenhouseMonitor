@@ -1,4 +1,4 @@
-from data_monitor import DataMonitor
+from utils.data_monitor import DataMonitor
 
 
 class MonitorAndNotify:
