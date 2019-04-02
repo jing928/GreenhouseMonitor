@@ -32,7 +32,3 @@ class ReportGenerator:
                                                         min_humid, max_humid, data_range)
         day_row = [day, day_status]
         self.__report_data.append(day_row)
-
-
-
-
