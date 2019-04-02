@@ -19,6 +19,7 @@ class BluetoothScanner:
                 name = paired_devices[mac_address]
                 sensor_reading = self.__data_collector.collect_data()
                 self.__notifier.notify_nearby_device(name, sensor_reading)
+                break
 
     # Modified from the script provided by PIoT course
     @staticmethod
