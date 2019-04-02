@@ -52,7 +52,7 @@ class DataAccess:
 
     def get_notification_status(self, lookup_date=date.today()):
         cur = self.con.cursor()
-        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE notify_date = ?", (lookup_date,))
+        cur.execute("SELECT sent FROM NOTIFICATION_STATUS WHERE notify_date = ?", (lookup_date, ))
         result = cur.fetchone()
         if result is None:
             return False
@@ -68,6 +68,41 @@ class DataAccess:
         collected_local_time = self.utc_to_localtime(result[0])
         return {SensorDataCol.COLLECTED_AT: collected_local_time, SensorDataCol.TEMP: result[1],
                 SensorDataCol.HUMID: result[2]}
+
+    def get_distinct_local_days(self):
+        cur = self.con.cursor()
+        cur.execute("SELECT DISTINCT DATE(collected_at, 'localtime', 'start of day') "
+                    "FROM SENSOR_DATA")
+        results = cur.fetchall()
+        return results
+
+    def get_max_temp_of_day(self, day):
+        cur = self.con.cursor()
+        cur.execute("SELECT MAX(temp) FROM SENSOR_DATA "
+                    "WHERE DATE(collected_at, 'localtime', 'start of day') = ?", (day, ))
+        result = cur.fetchone()
+        return result[0]
+
+    def get_min_temp_of_day(self, day):
+        cur = self.con.cursor()
+        cur.execute("SELECT MIN(temp) FROM SENSOR_DATA "
+                    "WHERE DATE(collected_at, 'localtime', 'start of day') = ?", (day,))
+        result = cur.fetchone()
+        return result[0]
+
+    def get_max_humid_of_day(self, day):
+        cur = self.con.cursor()
+        cur.execute("SELECT MAX(humid) FROM SENSOR_DATA "
+                    "WHERE DATE(collected_at, 'localtime', 'start of day') = ?", (day,))
+        result = cur.fetchone()
+        return result[0]
+
+    def get_min_humid_of_day(self, day):
+        cur = self.con.cursor()
+        cur.execute("SELECT MIN(humid) FROM SENSOR_DATA "
+                    "WHERE DATE(collected_at, 'localtime', 'start of day') = ?", (day,))
+        result = cur.fetchone()
+        return result[0]
 
     @staticmethod
     def utc_to_localtime(utc_time):
