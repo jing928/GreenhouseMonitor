@@ -15,6 +15,8 @@ class DataAccess:
                         "collected_at TIMESTAMP, temp NUMERIC, humid NUMERIC)")
             cur.execute("CREATE TABLE IF NOT EXISTS NOTIFICATION_STATUS "
                         "(id INTEGER PRIMARY KEY AUTOINCREMENT, notify_date DATE, sent BOOLEAN)")
+            cur.execute("CREATE TABLE IF NOT EXISTS BT_NOTIFICATION_TIME "
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, sent_time TIMESTAMP)")
 
     def __del__(self):
         self.con.close()
@@ -33,6 +35,20 @@ class DataAccess:
         cur.execute("INSERT INTO NOTIFICATION_STATUS (notify_date, sent) "
                     "VALUES (?, ?)", (today, True))
         self.con.commit()
+
+    def log_bt_notification_time(self):
+        now = datetime.utcnow()
+        cur = self.con.cursor()
+        cur.execute("INSERT INTO BT_NOTIFICATION_TIME (sent_time) VALUES (?)", (now, ))
+        self.con.commit()
+
+    def get_last_bt_notification_time(self):
+        cur = self.con.cursor()
+        cur.execute("SELECT sent_time FROM BT_NOTIFICATION_TIME ORDER BY id DESC LIMIT 1")
+        result = cur.fetchone()
+        if result is None:
+            return datetime.datetime(year=1900, month=1, day=1)  # A default time in the past
+        return result
 
     def get_notification_status(self, lookup_date=date.today()):
         cur = self.con.cursor()
