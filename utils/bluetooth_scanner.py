@@ -35,6 +35,7 @@ class BluetoothScanner:
         time_elapsed = diff.total_seconds()
         if time_elapsed > 60:  # Notification frequency should be greater than a minute
             return True
+        print('Maximum frequency reached!')
         return False
 
     # Modified from the script provided by PIoT course
