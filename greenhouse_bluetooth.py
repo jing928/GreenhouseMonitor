@@ -1,34 +1,16 @@
-import json
-import requests
-import bluetooth
-import sqlite3
-from utils.data_access import DataAccess
-from utils.file_access import FileAccess
-from utils.enums import SensorDataCol
-import notifier
+import time
+from utils.bluetooth_scanner import BluetoothScanner
+
 
 class GreenhouseBluetooth:
-    
 
-   
+    @staticmethod
+    def run():
+        scanner = BluetoothScanner()
+        while True:
+            scanner.search_and_notify()
+            time.sleep(5)
 
-    # Search for device based on device's name.
-    def search(self):
-        nearby_devices = bluetooth.discover_devices(lookup_name = True)
-        for name, mac_address in nearby_devices:
-            device_name = name   
-            device_address = mac_address
-            connection = sqlite3.connect(bDatabase)
-            cur = connection.cursor()
-            cur.fetchone()
-            cur.execute("SELECT * FROM Bluetooth_Data WHERE devicename= ? AND deviceaddress= ?", (device_name, device_address))
-            result = cur.fetchone()
-            if result:
-                title = 'Attention! Reading Out Of Range!'
-               
-               
-                notifier.send_notification(title, body)
-            else:
-                title = 'Could not find target device nearby...'
-                body = None
-                self.send_notification(title, body)
+
+if __name__ == '__main__':
+    GreenhouseBluetooth.run()
