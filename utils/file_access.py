@@ -23,7 +23,8 @@ class FileAccess:
             csv_file = open(path, 'w')
         except OSError:
             print('Oops...Invalid path...Please try again.')
-        with csv_file:
-            writer = csv.writer(csv_file)
-            writer.writerows(data)
-        csv_file.close()
+        else:
+            with csv_file:
+                writer = csv.writer(csv_file)
+                writer.writerows(data)
+            csv_file.close()
