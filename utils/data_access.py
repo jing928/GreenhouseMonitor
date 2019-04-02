@@ -47,8 +47,8 @@ class DataAccess:
         cur.execute("SELECT sent_time FROM BT_NOTIFICATION_TIME ORDER BY id DESC LIMIT 1")
         result = cur.fetchone()
         if result is None:
-            return datetime.datetime(year=1900, month=1, day=1)  # A default time in the past
-        return result
+            return datetime(year=1900, month=1, day=1)  # A default time in the past
+        return result[0]
 
     def get_notification_status(self, lookup_date=date.today()):
         cur = self.con.cursor()
