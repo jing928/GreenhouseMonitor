@@ -7,7 +7,7 @@ class ReportGenerator:
 
     def __init__(self):
         self.__dao = DataAccess()
-        self.__report_name = 'reports/output.csv'
+        self.__report_name = 'output.csv'
         self.__report_data = [['Date', 'Status']]
 
     def generate(self):
@@ -24,8 +24,8 @@ class ReportGenerator:
             FileAccess.write_to_csv(self.__report_data, self.__report_name)
 
     def get_user_input(self):
-        text = input("Please enter the report name:")
-        self.__report_name = 'reports/' + text + '.csv'
+        text = input("Please enter the report name: ")
+        self.__report_name = text + '.csv'
 
     def __process_day(self, day, data_range):
         min_temp = self.__dao.get_min_temp_of_day(day)
