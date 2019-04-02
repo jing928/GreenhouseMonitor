@@ -10,7 +10,7 @@ class Notifier:
     ENDPOINT = 'https://api.pushbullet.com/v2/pushes'
 
     def __init__(self):
-        token_dict = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
+        token_dict = FileAccess.get_tokens()
         self.__token = token_dict['pushbullet'] if token_dict is not None else None
         self.__dao = DataAccess()
 

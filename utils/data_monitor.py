@@ -28,8 +28,7 @@ class DataMonitor:
             print('No reading saved.')
             return
 
-        sensor_data_range = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/'
-                                                    'config.json')
+        sensor_data_range = FileAccess.get_sensor_data_range()
         if sensor_data_range is None:
             print('No range config available. Cannot verify...')
             return

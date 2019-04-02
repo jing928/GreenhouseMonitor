@@ -17,6 +17,14 @@ class FileAccess:
                 return content_dict
 
     @staticmethod
+    def get_sensor_data_range():
+        return FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/config.json')
+
+    @staticmethod
+    def get_tokens():
+        return FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
+
+    @staticmethod
     def write_to_csv(data, path):
         # data is a list of lists representing each row
         try:
