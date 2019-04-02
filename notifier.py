@@ -2,7 +2,7 @@ import json
 import requests
 from utils.data_access import DataAccess
 from utils.file_access import FileAccess
-from utils.enums import SensorDataCol
+from utils.enums import SensorDataCol, SensorType
 
 
 class Notifier:
@@ -17,7 +17,7 @@ class Notifier:
     def send_notification(self, title, body):
         if self.__token is None:
             print('No PushBullet API Token found, notification will not be sent.')
-            return
+            return False
 
         content = {"type": "note", "title": title, "body": body}
 
@@ -27,9 +27,9 @@ class Notifier:
 
         if response.status_code != 200:
             print('Oops...Something went wrong...')
-        else:
-            self.__dao.log_notification()
-            print('Success! Notification sent!')
+            return False
+        print('Success! Notification sent!')
+        return True
 
     def notify_out_of_range_reading(self, reading, temp_verified_result, humid_verified_result):
         notification_sent_today = self.__dao.get_notification_status()
@@ -43,4 +43,13 @@ class Notifier:
                    "\n{humid_info}".format(time=collected_time, temp=reading[SensorDataCol.TEMP],
                                            humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
                                            humid_info=humid_info)
-            self.send_notification(title, body)
+            if self.send_notification(title, body):
+                self.__dao.log_notification()
+
+    def notify_nearby_device(self, device_name, reading):
+        title = "Hello {name}!".format(name=device_name)
+        body = "The current temperature is {temp:.1f} \xb0C and the humidity is {humid:.1f}%.\n" \
+               "Have a nice day!".format(temp=reading[SensorType.TEMPERATURE],
+                                         humid=reading[SensorType.HUMIDITY])
+        if self.send_notification(title, body):
+            self.__dao.log_bt_notification_time()
