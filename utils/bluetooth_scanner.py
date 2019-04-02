@@ -1,9 +1,24 @@
 import subprocess as sp
 import re
 import bluetooth
+import notifier
+from data_collector import DataCollector
 
 
 class BluetoothScanner:
+
+    def __init__(self):
+        self.__data_collector = DataCollector()
+        self.__notifier = notifier.Notifier()
+
+    def search_and_notify(self):
+        paired_devices = BluetoothScanner.get_paired_devices()
+        nearby_devices = BluetoothScanner.get_nearby_devices()
+        for mac_address in nearby_devices:
+            if mac_address in paired_devices:
+                name = paired_devices[mac_address]
+                sensor_reading = self.__data_collector.collect_data()
+                self.__notifier.notify_nearby_device(name, sensor_reading)
 
     # Modified from the script provided by PIoT course
     @staticmethod
