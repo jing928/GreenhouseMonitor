@@ -114,3 +114,6 @@ venv.bak/
 
 # Token
 token.json
+
+# Outputs
+reports/
