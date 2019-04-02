@@ -23,3 +23,7 @@ class BluetoothScanner:
             devices[device_address] = device_name
 
         return devices
+
+    @staticmethod
+    def get_nearby_devices():
+        return bluetooth.discover_devices()
