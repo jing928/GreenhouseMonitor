@@ -10,7 +10,7 @@ class Notifier:
     ENDPOINT = 'https://api.pushbullet.com/v2/pushes'
 
     def __init__(self):
-        token_dict = FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
+        token_dict = FileAccess.get_tokens()
         self.__token = token_dict['pushbullet'] if token_dict is not None else None
         self.__dao = DataAccess()
 
@@ -39,10 +39,12 @@ class Notifier:
             humid_info = humid_verified_result[1]
             collected_time = reading[SensorDataCol.COLLECTED_AT].\
                 strftime('%b %d, %Y %I:%M:%S %p %Z')
-            body = "Time: {time} Temperature: {temp} \xb0C Humidity: {humid}%\n{temp_info}" \
-                   "\n{humid_info}".format(time=collected_time, temp=reading[SensorDataCol.TEMP],
-                                           humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
-                                           humid_info=humid_info)
+            body = "Time: {time} Temperature: {temp} \xb0C Humidity: {humid}%\n"\
+                   "Temperature is {temp_info}\n"\
+                   "Humidity is {humid_info}"\
+                .format(time=collected_time, temp=reading[SensorDataCol.TEMP],
+                        humid=reading[SensorDataCol.HUMID], temp_info=temp_info,
+                        humid_info=humid_info)
             if self.send_notification(title, body):
                 self.__dao.log_notification()
 
