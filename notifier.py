@@ -2,7 +2,7 @@ import json
 import requests
 from utils.data_access import DataAccess
 from utils.file_access import FileAccess
-from utils.enums import SensorDataCol
+from utils.enums import SensorDataCol, SensorType
 
 
 class Notifier:
@@ -48,5 +48,5 @@ class Notifier:
     def notify_nearby_device(self, device_name, reading):
         title = "Hello {name}!".format(name=device_name)
         body = "The current temperature is {temp:.1f} \xb0C and the humidity is {humid:.1f}%.\n" \
-               "Have a nice day!".format(temp=reading, humid=reading)
+               "Have a nice day!".format(temp=reading[SensorType.TEMPERATURE], humid=reading[SensorType.HUMIDITY])
         self.send_notification(title, body)
