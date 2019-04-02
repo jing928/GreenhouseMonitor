@@ -6,6 +6,7 @@ class CreateReport:
     @staticmethod
     def run():
         generator = ReportGenerator()
+        generator.get_user_input()
         generator.generate()
 
 
