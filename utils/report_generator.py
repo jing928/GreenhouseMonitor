@@ -21,7 +21,7 @@ class ReportGenerator:
             return
         for day in days:
             self.__process_day(day[0], sensor_data_range)
-            FileAccess.write_to_csv(self.__report_data, self.__report_name)
+        FileAccess.write_to_csv(self.__report_data, self.__report_name)
 
     def get_user_input(self):
         text = input("Please enter the report name: ")
