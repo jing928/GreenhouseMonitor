@@ -2,8 +2,8 @@ import subprocess as sp
 import re
 from datetime import datetime
 import bluetooth
-import notifier
-from data_collector import DataCollector
+from utils.notifier import Notifier
+from utils.data_collector import DataCollector
 from utils.data_access import DataAccess
 
 
@@ -12,7 +12,7 @@ class BluetoothScanner:
     def __init__(self):
         self.__dao = DataAccess()
         self.__data_collector = DataCollector()
-        self.__notifier = notifier.Notifier()
+        self.__notifier = Notifier()
 
     def search_and_notify(self):
         paired_devices = BluetoothScanner.get_paired_devices()

@@ -2,8 +2,8 @@ from utils.data_access import DataAccess
 from utils.file_access import FileAccess
 from utils.enums import SensorType, SensorDataCol
 from utils.validator import Validator
-from data_collector import DataCollector
-from notifier import Notifier
+from utils.data_collector import DataCollector
+from utils.notifier import Notifier
 
 
 class DataMonitor:
