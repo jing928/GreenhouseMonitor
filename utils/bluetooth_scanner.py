@@ -1,13 +1,16 @@
 import subprocess as sp
 import re
+from datetime import datetime
 import bluetooth
 import notifier
 from data_collector import DataCollector
+from utils.data_access import DataAccess
 
 
 class BluetoothScanner:
 
     def __init__(self):
+        self.__dao = DataAccess()
         self.__data_collector = DataCollector()
         self.__notifier = notifier.Notifier()
 
@@ -17,9 +20,22 @@ class BluetoothScanner:
         for mac_address in nearby_devices:
             if mac_address in paired_devices:
                 name = paired_devices[mac_address]
-                sensor_reading = self.__data_collector.collect_data()
-                self.__notifier.notify_nearby_device(name, sensor_reading)
+                self.__notify(name)
                 break
+
+    def __notify(self, name):
+        if self.__verify_frequency():
+            sensor_reading = self.__data_collector.collect_data()
+            self.__notifier.notify_nearby_device(name, sensor_reading)
+
+    def __verify_frequency(self):
+        last_sent_time = self.__dao.get_last_bt_notification_time()
+        now = datetime.utcnow()
+        diff = now - last_sent_time
+        time_elapsed = diff.total_seconds()
+        if time_elapsed > 60:  # Notification frequency should be greater than a minute
+            return True
+        return False
 
     # Modified from the script provided by PIoT course
     @staticmethod
