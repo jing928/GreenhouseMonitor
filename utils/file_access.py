@@ -33,6 +33,6 @@ class FileAccess:
             print('Oops...Invalid path...Please try again.')
         else:
             with csv_file:
-                writer = csv.writer(csv_file)
+                writer = csv.writer(csv_file, lineterminator='\n')
                 writer.writerows(data)
             csv_file.close()
