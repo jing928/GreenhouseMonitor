@@ -32,5 +32,21 @@ Run the following to install all required dependencies:
 
 ### Pushbullet API
 
+1. Go to [https://www.pushbullet.com/](<https://www.pushbullet.com/>) and create an account. Then go to __My Account__ -> __Settings__ and __Create Access Token__ under __Access Tokens__.
+
+2. Copy the newly created token from above step.
+
+3. SSH into Raspbian and `cd Workspaces/GreenhouseMonitor`
+
+4. Run `vi token.json` and add the following to the file and make sure to replace `[COPIED ACCESS TOKEN]` with your access token, and then save and quit with `:wq`:
+
+   ```json
+   {
+     "pushbullet": "[COPIED ACCESS TOKEN]"
+   }
+   ```
+
+5. Download Pushbullet App and/or web browser extensions and log in with the same account.
+
 
 
