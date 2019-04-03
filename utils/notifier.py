@@ -49,6 +49,8 @@ class Notifier:
                 self.__dao.log_notification()
 
     def notify_nearby_device(self, device_name, reading):
+        if reading is None:
+            reading = {SensorType.TEMPERATURE: 'N/A', SensorType.HUMIDITY: 'N/A'}
         title = "Hello {name}!".format(name=device_name)
         body = "The current temperature is {temp:.1f} \xb0C and the humidity is {humid:.1f}%.\n" \
                "Have a nice day!".format(temp=reading[SensorType.TEMPERATURE],
