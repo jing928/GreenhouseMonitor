@@ -41,5 +41,3 @@ class FigureGenerator:
         grid.set_axis_labels('Temperature (\xb0C)', 'Humidity (%)')
         plt.savefig('joint_plot.png', dpi=400, bbox_inches='tight')
         print('Finished.')
-
-
