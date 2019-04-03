@@ -48,5 +48,50 @@ Run the following to install all required dependencies:
 
 5. Download Pushbullet App and/or web browser extensions and log in with the same account.
 
+### Create SQLite Database
 
+1. SSH into Raspbian and `cd Workspaces/GreenhouseMonitor`
+2. Run `sqlite3 greenhouse_monitor.db`
+3. Type `.databases` to verify and `.exit` to quit SQLite CLI.
 
+### Cron Job
+
+1. SSH into Raspbian and `cd ~`
+2. Run `mkdir CronJobs`
+
+#### Greenhouse Monitor
+
+1. `vi CronJobs/RunGreenhouseMonitor.sh` and add the following to the file and save:
+
+   ```bash
+   #!/bin/sh
+   python3 /home/pi/Workspaces/GreenhouseMonitor/monitor_and_notify.py
+   ```
+
+2. Run `chmod +x /home/pi/CronJobs/RunGreenhouseMonitor.sh`
+
+3. `sudo vi /etc/cron.d/GreenhouseMonitorJob` and add the following to the file and save:
+
+   `* * * * * pi /home/pi/CronJobs/RunGreenhouseMonitor.sh`
+
+#### Greenhouse Bluetooth
+
+1. vi CronJobs/RunGreenhouseBluetooth.sh` and add the following to the file and save:
+
+   ```bash
+   #!/bin/sh
+   python3 /home/pi/Workspaces/GreenhouseMonitor/greenhouse_bluetooth.py
+   ```
+
+2. Run `chmod +x /home/pi/CronJobs/RunGreenhouseBluetooth.sh`
+
+3. `sudo vi /etc/cron.d/GreenhouseMonitorJob` and add the following to the file and save:
+
+   ```
+   * * * * * pi /home/pi/CronJobs/RunGreenhouseBluetooth.sh
+   * * * * * pi sleep 30; /home/pi/CronJobs/RunGreenhouseBluetooth.sh
+   ```
+
+   The script itself takes about 15 seconds to run, and the two cron jobs above run the script every 30 seconds and therefore create a 15-second interval between two runs.
+
+Finally, run `sudo reboot` to restart Raspbian for the changes to take effect.
