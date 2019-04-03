@@ -10,4 +10,4 @@ class Analytics:
 
 
 if __name__ == '__main__':
-     Analytics.run()
+    Analytics.run()
