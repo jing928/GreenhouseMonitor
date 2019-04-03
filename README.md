@@ -95,3 +95,39 @@ Run the following to install all required dependencies:
    The script itself takes about 15 seconds to run, and the two cron jobs above run the script every 30 seconds and therefore create a 15-second interval between two runs.
 
 Finally, run `sudo reboot` to restart Raspbian for the changes to take effect.
+
+## Usage
+
+### Greenhouse Monitor
+
+Once configured, the script should automatically run every minute and it will collect the sensor data (temperature and humidity) and save them to the local database. For every reading, it will also compare with the `config.json` file and notify user if the reading is out of range. The notification is sent maximum once each day, local time.
+
+To manually run the script, run:
+
+ `python3 /home/pi/Workspaces/GreenhouseMonitor/monitor_and_notify.py`
+
+### Greenhouse Bluetooth
+
+Once configured, the script should automatically run every 30 seconds and it will look for paired devices. If a paired device is nearby, it will collect the sensor data and send notification with the data to the user. The notification is sent maximum once every minute.
+
+To manually run the script, run:
+
+`python3 /home/pi/Workspaces/GreenhouseMonitor/greenhouse_bluetooth.py`
+
+### Report Generation
+
+To see if readings are out-of-range for each day, user can manually run:
+`python3 /home/pi/Workspaces/GreenhouseMonitor/create_report.py`
+
+User can also modify the range in `config.json` before creating the report.
+
+### Data Visualization
+
+User can manually run:
+
+`python3 /home/pi/Workspaces/GreenhouseMonitor/analytics.py`
+
+to generate two predefined graphs — `line_chart.png` and `joint_plot.png`.
+
+The former shows the trends of temperature and humid, and the latter depicts the relationship between temperature and humidity along with their distributions.
+
