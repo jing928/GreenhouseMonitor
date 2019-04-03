@@ -1,4 +1,5 @@
 import sqlite3 as lite
+import pandas as pd
 from datetime import datetime, date, timezone
 from utils.enums import SensorDataCol
 
@@ -103,6 +104,9 @@ class DataAccess:
                     "WHERE DATE(collected_at, 'localtime', 'start of day') = ?", (day,))
         result = cur.fetchone()
         return result[0]
+
+    def get_all_sensor_data(self):
+        return pd.read_sql_query("SELECT * FROM SENSOR_DATA", self.con)
 
     @staticmethod
     def utc_to_localtime(utc_time):
