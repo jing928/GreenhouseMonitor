@@ -106,7 +106,8 @@ class DataAccess:
         return result[0]
 
     def get_all_sensor_data(self):
-        return pd.read_sql_query("SELECT * FROM SENSOR_DATA", self.con)
+        return pd.read_sql_query("SELECT DATETIME(collected_at, 'localtime') as 'time', "
+                                 "temp, humid FROM SENSOR_DATA", self.con)
 
     @staticmethod
     def utc_to_localtime(utc_time):
