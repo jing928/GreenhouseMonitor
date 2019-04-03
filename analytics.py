@@ -7,6 +7,7 @@ class Analytics:
     def run():
         generator = FigureGenerator()
         generator.generate_line_chart()
+        generator.generate_joint_plot()
 
 
 if __name__ == '__main__':

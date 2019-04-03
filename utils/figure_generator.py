@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import seaborn as sbn
 from pandas.plotting import register_matplotlib_converters
 from utils.data_access import DataAccess
 
@@ -21,7 +22,7 @@ class FigureGenerator:
         axes.xaxis.set_tick_params(which='major', pad=10, labelsize=8)
         axes.xaxis.set_tick_params(which='minor', labelsize=5)
 
-        plt.title('Line Chart: Temperature vs Humidity')
+        plt.title('Line Chart: Temperature and Humidity')
         plt.ylabel('\xb0C | %')
         plt.xlabel('Reading Collected Time')
         plt.plot('time', 'temp', data=self.__sensor_data,
@@ -31,3 +32,14 @@ class FigureGenerator:
         plt.legend()
         plt.savefig('line_chart.png', dpi=400, bbox_inches='tight')
         print('Finished.')
+
+    def generate_joint_plot(self):
+        print('Generating joint plot...')
+        grid = sbn.jointplot(x="temp", y="humid", data=self.__sensor_data, kind="reg")
+        grid.fig.suptitle('Relationship Between Temperature and Humidity'
+                          ' (With Distributions)', fontsize=12)
+        grid.set_axis_labels('Temperature (\xb0C)', 'Humidity (%)')
+        plt.savefig('joint_plot.png', dpi=400, bbox_inches='tight')
+        print('Finished.')
+
+
