@@ -1,3 +1,4 @@
+import re
 from utils.data_access import DataAccess
 from utils.file_access import FileAccess
 from utils.validator import Validator
@@ -24,7 +25,14 @@ class ReportGenerator:
         FileAccess.write_to_csv(self.__report_data, self.__report_name)
 
     def get_user_input(self):
-        text = input("Please enter the report name: ")
+        valid_name = False
+        correct_pattern = re.compile(r"^[\w\-. ]+(?<!\.csv)$")
+        while not valid_name:
+            text = input('Please enter the report name (without extension): ')
+            valid_name = bool(correct_pattern.match(text))
+            if not valid_name:
+                print('Invalid name!')
+
         self.__report_name = text + '.csv'
 
     def __process_day(self, day, data_range):
