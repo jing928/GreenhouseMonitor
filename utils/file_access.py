@@ -18,11 +18,11 @@ class FileAccess:
 
     @staticmethod
     def get_sensor_data_range():
-        return FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/config.json')
+        return FileAccess.json_to_dict('config.json')
 
     @staticmethod
     def get_tokens():
-        return FileAccess.json_to_dict('/home/pi/Workspaces/GreenhouseMonitor/token.json')
+        return FileAccess.json_to_dict('token.json')
 
     @staticmethod
     def write_to_csv(data, path):
