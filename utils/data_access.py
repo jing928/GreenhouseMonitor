@@ -7,7 +7,7 @@ from utils.enums import SensorDataCol
 class DataAccess:
 
     def __init__(self):
-        self.con = lite.connect('/home/pi/Workspaces/GreenhouseMonitor/greenhouse_monitor.db',
+        self.con = lite.connect('greenhouse_monitor.db',
                                 detect_types=lite.PARSE_DECLTYPES | lite.PARSE_COLNAMES)
         with self.con:
             cur = self.con.cursor()
