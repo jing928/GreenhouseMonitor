@@ -76,7 +76,7 @@ Run the following to install all required dependencies:
 
 #### Greenhouse Bluetooth
 
-1. vi CronJobs/RunGreenhouseBluetooth.sh` and add the following to the file and save:
+1. `vi CronJobs/RunGreenhouseBluetooth.sh` and add the following to the file and save:
 
    ```bash
    #!/bin/sh
