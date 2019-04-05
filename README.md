@@ -65,7 +65,7 @@ Run the following to install all required dependencies:
 
    ```bash
    #!/bin/sh
-   python3 /home/pi/Workspaces/GreenhouseMonitor/monitor_and_notify.py
+   cd /home/pi/Workspaces/GreenhouseMonitor; python3 monitor_and_notify.py
    ```
 
 2. Run `chmod +x /home/pi/CronJobs/RunGreenhouseMonitor.sh`
@@ -80,7 +80,7 @@ Run the following to install all required dependencies:
 
    ```bash
    #!/bin/sh
-   python3 /home/pi/Workspaces/GreenhouseMonitor/greenhouse_bluetooth.py
+   cd /home/pi/Workspaces/GreenhouseMonitor; python3 greenhouse_bluetooth.py
    ```
 
 2. Run `chmod +x /home/pi/CronJobs/RunGreenhouseBluetooth.sh`
@@ -104,7 +104,7 @@ Once configured, the script should automatically run every minute and it will co
 
 To manually run the script, run:
 
- `python3 /home/pi/Workspaces/GreenhouseMonitor/monitor_and_notify.py`
+ `cd /home/pi/Workspaces/GreenhouseMonitor; python3 monitor_and_notify.py`
 
 ### Greenhouse Bluetooth
 
@@ -112,12 +112,12 @@ Once configured, the script should automatically run every 30 seconds and it wil
 
 To manually run the script, run:
 
-`python3 /home/pi/Workspaces/GreenhouseMonitor/greenhouse_bluetooth.py`
+`cd /home/pi/Workspaces/GreenhouseMonitor; python3 greenhouse_bluetooth.py`
 
 ### Report Generation
 
 To see if readings are out-of-range for each day, user can manually run:
-`python3 /home/pi/Workspaces/GreenhouseMonitor/create_report.py`
+`cd /home/pi/Workspaces/GreenhouseMonitor; python3 create_report.py`
 
 User can also modify the range in `config.json` before creating the report.
 
@@ -125,7 +125,7 @@ User can also modify the range in `config.json` before creating the report.
 
 User can manually run:
 
-`python3 /home/pi/Workspaces/GreenhouseMonitor/analytics.py`
+`cd /home/pi/Workspaces/GreenhouseMonitor; python3 analytics.py`
 
 to generate two predefined graphs — `line_chart.png` and `joint_plot.png`.
 
