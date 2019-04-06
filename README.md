@@ -38,7 +38,7 @@ Run the following to install all required dependencies:
 
 3. SSH into Raspbian and `cd Workspaces/GreenhouseMonitor`
 
-4. Run `vi token.json` and add the following to the file and make sure to replace `[COPIED ACCESS TOKEN]` with your access token, and then save and quit with `:wq`:
+4. Run `vi token.json` (one can use `nano` to create file instead of `vi`, same for all similar commands in this document) and add the following to the file and make sure to replace `[COPIED ACCESS TOKEN]` with your access token:
 
    ```json
    {
