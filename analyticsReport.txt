@@ -4,12 +4,12 @@
 
 After several days of monitoring, we have over 4,000 records of temperature and humidity readings, 
 i.e. two time series of data. To visualize the data and have a better understanding of the data, 
-we decided to create two graphs: line chart and scatter plot with distributions.
+we decided to create two pre-defined graphs: line chart and scatter plot with distributions.
 
 The line chart has both temperature and humidity plotted along the time axis so that we can see 
-the trend clearly for the past few days. Also, on the time axis, besides the ticks for each day, 
-it should also be subdivided into 8-hour intervals, as this allows us to not only see how temperature 
-and humidity change over days but also how they change within a day.
+the trend clearly for the past several days (up to 7 days for best quality). Also, on the time axis, 
+besides the ticks for each day, it should also be subdivided into 8-hour intervals, as this allows 
+us to not only see how temperature and humidity change over days but also how they change within a day.
 
 We are also curious to see how temperature and humidity relate to each other, i.e. their linear 
 relationship, as well as their probability distributions. Therefore we decided to use a joint plot 
@@ -27,8 +27,10 @@ easily work with local data and output graph files.
 
 The size of our data is considered small in today's standards, so all the above-mentioned libraries can 
 handle. However, as we want to generate static pictures locally, we don't want the libraries that are 
-mostly for interactive visualizations. Hence, Bokeh and Plotly are ruled out as they are mostly used 
-for interactive and/or online visualization.
+mostly for interactive visualizations. In addition to that, as the processing power of the Pi is 
+limited, we don't want to install some heavy libraries either as that would take too long or even 
+fail. Hence, Bokeh and Plotly are ruled out as they are mostly used for interactive and/or online 
+visualization.
 
 That leaves us three choices, Matplotlib, Seaborn, and ggplot. ggplot is great for its grammar of 
 graphics as one can create a plot by adding different components on top of each other and gradually 
