@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sbn
+import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 from utils.data_access import DataAccess
 
@@ -22,12 +23,16 @@ class FigureGenerator:
         axes.xaxis.set_tick_params(which='major', pad=10, labelsize=8)
         axes.xaxis.set_tick_params(which='minor', labelsize=5)
 
+        # Get data for up to the last 7 days
+        cutoff_time = self.__sensor_data['time'].iloc[-1] - pd.Timedelta(days=7)
+        filtered_data = self.__sensor_data[self.__sensor_data['time'] >= cutoff_time]
+
         plt.title('Line Chart: Temperature and Humidity')
         plt.ylabel('\xb0C | %')
         plt.xlabel('Reading Collected Time')
-        plt.plot('time', 'temp', data=self.__sensor_data,
+        plt.plot('time', 'temp', data=filtered_data,
                  marker='', color='tomato', label='Temperature')
-        plt.plot('time', 'humid', data=self.__sensor_data,
+        plt.plot('time', 'humid', data=filtered_data,
                  marker='', color='turquoise', label='Humidity')
         plt.legend()
         plt.savefig('line_chart.png', dpi=400, bbox_inches='tight')
